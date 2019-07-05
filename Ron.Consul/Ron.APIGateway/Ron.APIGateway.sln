@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ron.APIGateway", "Ron.APIGateway\Ron.APIGateway.csproj", "{DFA737EA-9298-48CD-9329-EF30DF53F85F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DFA737EA-9298-48CD-9329-EF30DF53F85F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFA737EA-9298-48CD-9329-EF30DF53F85F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFA737EA-9298-48CD-9329-EF30DF53F85F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFA737EA-9298-48CD-9329-EF30DF53F85F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15DF94E1-3AFE-4576-9B4C-2C887B5A0E86}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,543 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Invio.Extensions.Authentication.JwtBearer</name>
+    </assembly>
+    <members>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.ApplicationBuilderExtensions">
+            <summary>
+              Eases the application of the additonal middlewares necessary to fulfill
+              the <see cref="T:Invio.Extensions.Authentication.JwtBearer.IJwtBearerQueryStringBehavior" /> defined on the web service's
+              <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions" />.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.ApplicationBuilderExtensions.UseJwtBearerQueryString(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+              Places the <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware" /> into the request
+              pipeline, ensuring the <see cref="T:Invio.Extensions.Authentication.JwtBearer.IJwtBearerQueryStringBehavior" />
+              defined gets applied.
+            </summary>
+            <remarks>
+              This should be done after authentication middleware, but before any logging
+              middleware. That will ensure the access token is used to authenticate the user,
+              but nothing else gets to see it unless the behavior was configured to allow it.
+            </remarks>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.AuthenticationBuilderExtensions">
+            <summary>
+              Eases the application of the additonal behaviors to a given JWT bearer
+              configuration via its <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder" />.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.AuthenticationBuilderExtensions.AddJwtBearerQueryStringAuthentication(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
+            <summary>
+              Adds authentication of bearer tokens via URI Query Parameters as defined in
+              <see href="https://tools.ietf.org/html/rfc6750#section-2.3">RFC 6750</see>.
+              The name of the query string parameter sought will be the default,
+              "access_token", and the parameter will be redacted via the included
+              <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware" />.
+            </summary>
+            <param name="builder">
+              The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder" /> object being used to construct
+              the configuration for a given JWT bearer authentication handler.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="builder" /> is null.
+            </exception>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.AuthenticationBuilderExtensions.AddJwtBearerQueryStringAuthentication(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions})">
+            <summary>
+              Adds authentication of bearer tokens via URI Query Parameters as defined in
+              <see href="https://tools.ietf.org/html/rfc6750#section-2.3">RFC 6750</see>.
+              The name of the query string parameter sought will be the default,
+              "access_token", and the parameter will be redacted via the included
+              <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware" />, unless otherwise configured
+              via the <paramref name="configureOptions" /> parameter.
+            </summary>
+            <param name="builder">
+              The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationBuilder" /> object being used to construct
+              the configuration for a given JWT bearer authentication handler.
+            </param>
+            <param name="configureOptions">
+              An action used to configure how the JWT bearer token should be handled
+              if it is being passed in via the query string.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="builder" /> or
+              <paramref name="configureOptions" /> is null.
+            </exception>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.IJwtBearerQueryStringBehavior">
+            <summary>
+              Defines how the web service should mutate requests, if at all, in order
+              to manage the query string parameter's
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.IJwtBearerQueryStringBehavior.Apply(Microsoft.AspNetCore.Http.HttpContext,Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions)">
+            <summary>
+              Applies the defined query string mutation behavior to the provided
+              <see cref="T:Microsoft.AspNetCore.Http.HttpContext" />.
+            </summary>
+            <remarks>
+              Defined in the <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions" />, this may
+              do something like redact the token, it may move the token into the
+              'Authorization' header using the traditional Bearer authentication
+              scheme, or it may do nothing at all.
+            </remarks>
+            <param name="context">
+              The <see cref="T:Microsoft.AspNetCore.Http.HttpContext" /> for a given request. The request may or may
+              not be using the query string as a form of authentication.
+            </param>
+            <param name="options">
+              The <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions" /> that define how the
+              query string authentication should be managed within this web service.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="context" /> or <paramref name="options" /> is null.
+            </exception>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerEventsWrapperBase">
+            <summary>
+              Boilerplate wrapper implementation for <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents" />
+              event handler class to enable composition of event handling behavior.
+            </summary>
+            <remarks>
+              This is abstract with a protected constructor as it should only enable
+              true wrappers to implement their desired functionality without having
+              to provide distracting invocations to the wrapped <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents" />.
+            </remarks>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerEventsWrapperBase.#ctor(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents)">
+            <summary>
+              Creates a <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents" /> implementation which
+              does nothing but call the injected wrapped implementation by default.
+            </summary>
+            <param name="inner">
+              The base <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents" /> that will be invoked after the
+              inheriting wrapper performs its side effects.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="inner" /> is null.
+            </exception>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerEventsWrapperBase.AuthenticationFailed(Microsoft.AspNetCore.Authentication.JwtBearer.AuthenticationFailedContext)">
+            <summary>
+              Invoked if exceptions are thrown during request processing.
+              The exceptions will be re-thrown after this event unless suppressed.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerEventsWrapperBase.MessageReceived(Microsoft.AspNetCore.Authentication.JwtBearer.MessageReceivedContext)">
+            <summary>
+              Invoked when a protocol message is first received.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerEventsWrapperBase.TokenValidated(Microsoft.AspNetCore.Authentication.JwtBearer.TokenValidatedContext)">
+            <summary>
+              Invoked after the security token has passed validation
+              and a ClaimsIdentity has been generated.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerEventsWrapperBase.Challenge(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerChallengeContext)">
+            <summary>
+              Invoked before a challenge is sent back to the caller.
+            </summary>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerOperationsExtensions">
+            <summary>
+              Eases the application of the additonal behaviors to a given JWT bearer
+              configuration via its <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions" />.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerOperationsExtensions.AddQueryStringAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions)">
+            <summary>
+              Adds authentication of bearer tokens via URI Query Parameters as defined in
+              <see href="https://tools.ietf.org/html/rfc6750#section-2.3">RFC 6750</see>.
+              The name of the query string parameter sought will be the default, "access_token".
+            </summary>
+            <param name="options">
+              A <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions" /> object that describes
+              the current configuration for the authentication of bearer tokens.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="options" /> is null.
+            </exception>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerOperationsExtensions.AddQueryStringAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions,System.String)">
+            <summary>
+              Adds authentication of bearer tokens via URI Query Parameters as defined in
+              <see href="https://tools.ietf.org/html/rfc6750#section-2.3">RFC 6750</see>.
+              The name of the query string parameter sought will be that which is passed
+              in to the <paramref name="queryStringParameterName" /> parameter.
+            </summary>
+            <param name="options">
+              A <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions" /> object that describes
+              the current configuration for the authentication of bearer tokens.
+            </param>
+            <param name="queryStringParameterName">
+              The name of the query string parameter that will be sought in
+              the web request's URI.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="options" /> is null.
+            </exception>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerOptionsPostConfiguration">
+            <summary>
+              Updates the <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions" /> to enable query string-based
+              authentication with JWT bearer tokens.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerOptionsPostConfiguration.#ctor(Microsoft.Extensions.Options.IOptions{Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions})">
+            <summary>
+              Instantiates a post configure event handler that will mutate the
+              <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions" /> after it has been configured
+              for use by the web service.
+            </summary>
+            <param name="options">
+              The configuration settings for how the request pipeline will be analyzed
+              and mutated to support query string-based authentication.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="options" /> is null.
+            </exception>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerOptionsPostConfiguration.PostConfigure(System.String,Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions)">
+            <summary>
+              Mutates the <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions" /> such that it will now
+              look for access tokens in the query string, performing authentication
+              with them as it would if the token were presented in the traditional
+              'Authorization' header.
+            </summary>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringBehaviorBase">
+            <summary>
+              A base implementation of the <see cref="T:Invio.Extensions.Authentication.JwtBearer.IJwtBearerQueryStringBehavior" /> that
+              validates parameters to conform with the interface's requirements that cannot
+              be enforced in the compiler.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringBehaviorBase.Apply(Microsoft.AspNetCore.Http.HttpContext,Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions)">
+            <summary>
+              Applies the defined query string mutation behavior to the provided
+              <see cref="T:Microsoft.AspNetCore.Http.HttpContext" />.
+            </summary>
+            <remarks>
+              Defined in the <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions" />, this may
+              do something like redact the token, it may move the token into the
+              'Authorization' header using the traditional Bearer authentication
+              scheme, or it may do nothing at all.
+            </remarks>
+            <param name="context">
+              The <see cref="T:Microsoft.AspNetCore.Http.HttpContext" /> for a given request. The request may or may
+              not be using the query string as a form of authentication.
+            </param>
+            <param name="options">
+              The <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions" /> that define how the
+              query string authentication should be managed within this web service.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="context" /> or <paramref name="options" /> is null.
+            </exception>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringBehaviorBase.ApplyImpl(Microsoft.AspNetCore.Http.HttpContext,Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions)">
+            <summary>
+              This is the same behavior as the <see cref="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringBehaviorBase.Apply(Microsoft.AspNetCore.Http.HttpContext,Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions)" /> method sans the boilerplace
+              <see cref="T:System.ArgumentNullException" /> checks.
+            </summary>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware">
+            <summary>
+              Mutates the <see cref="T:Microsoft.AspNetCore.Http.HttpContext" /> of a given request based upon the behavior
+              defined via the <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions" />.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.Extensions.Options.IOptions{Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions})">
+            <summary>
+              Instantiates a new instance of the <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware" />
+              with the next step in the request pipeline and the
+              <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions" /> that define how the web request
+              will be mutated in order to perform the desired query string management behavior.
+            </summary>
+            <param name="next">
+              The next step in the web request pipeline.
+            </param>
+            <param name="options">
+              The configuration settings for how the request pipeline will be analyzed
+              and mutated to support query string-based authentication.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="next" /> or <paramref name="options" /> is null.
+            </exception>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+              Runs this step in the pipeline, mutating the <see cref="T:Microsoft.AspNetCore.Http.HttpContext" />
+              in accordance to the configuration defined via the injected
+              <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions" />.
+            </summary>
+            <param name="context">
+              The underlying <see cref="T:Microsoft.AspNetCore.Http.HttpContext" /> for the web request being
+              processed by this web service.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="context" /> is null.
+            </exception>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions">
+            <summary>
+              This class defines the configuration of how to query string parameter-based
+              authentication should behave in the service that is consuming this library.
+            </summary>
+        </member>
+        <member name="P:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions.DefaultQueryStringParameterName">
+            <summary>
+              The default query string parameter name sought in the web request's URI.
+            </summary>
+            <remarks>
+              The name 'access_token' was chosen as it is listed in RFC 6750.
+            </remarks>
+        </member>
+        <member name="P:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions.QueryStringParameterName">
+            <summary>
+              The name of the query string parameter that will be sought in
+              the web request's URI.
+            </summary>
+        </member>
+        <member name="P:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions.QueryStringBehavior">
+            <summary>
+              This defines how the query string should be managed in the
+              <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware" />. For example, it may
+              redact the token and inject a placeholder string in its place, or
+              it make leave the token alone entirely.
+            </summary>
+            <remarks>
+              By default, we redact the query string by swapping its value will be
+              replaced with the word "(REDACTED)". This still lets you know that the
+              user did authenticate via the query string, but token used for
+              authentication is being hidden due to security concerns.
+            </remarks>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.NullJwtBearerQueryStringBehavior">
+            <summary>
+              An implementation of the <see cref="T:Invio.Extensions.Authentication.JwtBearer.IJwtBearerQueryStringBehavior" /> that
+              performs no mutations to the <see cref="T:Microsoft.AspNetCore.Http.HttpContext" /> of the user's web request.
+            </summary>
+            <remarks>
+              This can be useful for development or testing scenarios.
+            </remarks>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.NullJwtBearerQueryStringBehavior.ApplyImpl(Microsoft.AspNetCore.Http.HttpContext,Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions)">
+            <summary>
+              Performs no mutations to the <see cref="T:Microsoft.AspNetCore.Http.HttpContext" /> of the user's web request.
+            </summary>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.QueryStringBehaviors">
+            <summary>
+              Various methods and properties that provide an idiomatic way to define
+              the desired <see cref="T:Invio.Extensions.Authentication.JwtBearer.IJwtBearerQueryStringBehavior" /> for a given
+              instance of <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions" />.
+            </summary>
+        </member>
+        <member name="P:Invio.Extensions.Authentication.JwtBearer.QueryStringBehaviors.Redact">
+            <summary>
+              This behavior will cause the access token to be redacted from the
+              user's web request by replacing it with the string "(REDACTED)".
+              This is the default behavior.
+            </summary>
+        </member>
+        <member name="P:Invio.Extensions.Authentication.JwtBearer.QueryStringBehaviors.None">
+            <summary>
+              This behavior will perform no mutations to the user's web request.
+            </summary>
+            <remarks>
+              This behavior is not recommended for production environments.
+              However, it may be useful in development and test scenarios.
+            </remarks>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.QueryStringBehaviors.RedactWithValue(System.String)">
+            <summary>
+              This behavior will cause the access token to be redacted from the
+              user's web request by replacing it with the string provided via
+              the <paramref name="redactedValue" />.
+            </summary>
+            <param name="redactedValue">
+              The string that will be put in the place of the access token if
+              it is found in the query string.
+            </param>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.QueryStringJwtBearerEventsWrapper">
+            <summary>
+              Creates a wrapper around an inner <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents" /> that fetches
+              the API consumer's bearer token out of the query string if it is present.
+              If the query string parameter is not present, this wrapper does nothing.
+            </summary>
+            <remarks>
+              <para>
+                This can be used when the application consuming a .NET Core WebAPI needs to
+                enable browser sessioins to download images and/or other binary files directly.
+              </para>
+              <para>
+                If a token is specified in both as a query string parameter and in the
+                'Authorization' header, the query string parameter "wins" and will be used
+                even if it is invalid and the header's token is valid.
+              </para>
+            </remarks>
+        </member>
+        <member name="P:Invio.Extensions.Authentication.JwtBearer.QueryStringJwtBearerEventsWrapper.DefaultQueryStringParameterName">
+            <summary>
+              This is the default name of the query string parameter that will be
+              sought before the 'Authorization' header is parsed using the 'Bearer'
+              authentication scheme.
+            </summary>
+            <remarks>
+              This is the default specified in RFC 6750.
+              <see href="https://tools.ietf.org/html/rfc6750#section-2.3" />
+            </remarks>
+        </member>
+        <member name="P:Invio.Extensions.Authentication.JwtBearer.QueryStringJwtBearerEventsWrapper.QueryStringParameterName">
+            <summary>
+              This is the actual query string parameter that will be sought in all
+              requests to perform authentication. If found, its value is used for
+              processing bearer authentication for this web request.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.QueryStringJwtBearerEventsWrapper.#ctor(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents)">
+            <summary>
+              Wraps an instance of <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents" /> with a behavior
+              that checks for a token in the query string with a name of "bearer".
+            </summary>
+            <param name="inner">
+              A base <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents" /> implementation that will gain
+              this additional query string inspection behavior.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="inner" /> is null.
+            </exception>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.QueryStringJwtBearerEventsWrapper.#ctor(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents,System.String)">
+            <summary>
+              Wraps an instance of <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents" /> with a behavior
+              checks for a token in the query string with a name specified in the
+              <paramref name="queryStringParameterName" /> parameter.
+            </summary>
+            <param name="inner">
+              A base <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents" /> implementation that will gain
+              this additional query string inspection behavior.
+            </param>
+            <param name="queryStringParameterName">
+              The name of the query string parameter that will be sought from requests
+              in order to extract a token.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="inner" /> or
+              <paramref name="queryStringParameterName" /> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+              Thrown when <paramref name="queryStringParameterName" /> is an invalid name
+              for a query string parameter.
+            </exception>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.QueryStringJwtBearerEventsWrapper.MessageReceived(Microsoft.AspNetCore.Authentication.JwtBearer.MessageReceivedContext)">
+            <summary>
+              Checks the web request for the <see cref="P:Invio.Extensions.Authentication.JwtBearer.QueryStringJwtBearerEventsWrapper.QueryStringParameterName" /> in
+              the request's query string. If it is found, it fetches the token
+              and sets it on the provided <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.MessageReceivedContext" />.
+            </summary>
+            <param name="context">
+              The <see cref="T:Microsoft.AspNetCore.Authentication.JwtBearer.MessageReceivedContext" /> that provides details
+              on the web request that was made. The query string, among other
+              properties relevant to the request, is stored on this value object.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="context" /> is null.
+            </exception>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.RedactJwtBearerQueryStringBehavior">
+            <summary>
+              An implementation of the <see cref="T:Invio.Extensions.Authentication.JwtBearer.IJwtBearerQueryStringBehavior" /> that
+              removes the access token from the request's query string and replaces it
+              a string value that can be interpreted as the token being redacted.
+            </summary>
+        </member>
+        <member name="P:Invio.Extensions.Authentication.JwtBearer.RedactJwtBearerQueryStringBehavior.DefaultRedactedValue">
+            <summary>
+              The default value that in place of the access token.
+            </summary>
+        </member>
+        <member name="P:Invio.Extensions.Authentication.JwtBearer.RedactJwtBearerQueryStringBehavior.RedactedValue">
+            <summary>
+              The value this instance of <see cref="T:Invio.Extensions.Authentication.JwtBearer.RedactJwtBearerQueryStringBehavior" />
+              will plug as the query string value for every instance where the token's query
+              string parameter name is found.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.RedactJwtBearerQueryStringBehavior.#ctor">
+            <summary>
+              Instantiates a new instance of <see cref="T:Invio.Extensions.Authentication.JwtBearer.RedactJwtBearerQueryStringBehavior" />
+              that will replace all instances of the access token in the query string with
+              the word '(REDACTED)' via the <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware" />.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.RedactJwtBearerQueryStringBehavior.#ctor(System.String)">
+            <summary>
+              Instantiates a new instance of <see cref="T:Invio.Extensions.Authentication.JwtBearer.RedactJwtBearerQueryStringBehavior" />
+              that will replace all instances of the access token in the query string with
+              the string provided using the <paramref name="redactedValue" /> parameter
+              via the <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware" />.
+            </summary>
+            <param name="redactedValue">
+              The string that will be used in place of the access token via the
+              <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware" />.
+            </param>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.RedactJwtBearerQueryStringBehavior.ApplyImpl(Microsoft.AspNetCore.Http.HttpContext,Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions)">
+            <summary>
+              Identifies and redacts the access token if it was provided via the query string.
+            </summary>
+        </member>
+        <member name="T:Invio.Extensions.Authentication.JwtBearer.ServiceCollectionExtensions">
+            <summary>
+              Eases the application of the additonal behaviors to a given JWT bearer
+              configuration via its <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" />.
+            </summary>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.ServiceCollectionExtensions.AddJwtBearerQueryStringAuthentication(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+              Adds authentication of bearer tokens via URI Query Parameters as defined in
+              <see href="https://tools.ietf.org/html/rfc6750#section-2.3">RFC 6750</see>.
+              The name of the query string parameter sought will be the default,
+              "access_token", and the parameter will be redacted via the included
+              <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware" />.
+            </summary>
+            <param name="services">
+              The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" /> object being used to construct
+              the configuration for a given JWT bearer authentication handler.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="services" /> is null.
+            </exception>
+        </member>
+        <member name="M:Invio.Extensions.Authentication.JwtBearer.ServiceCollectionExtensions.AddJwtBearerQueryStringAuthentication(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringOptions})">
+            <summary>
+              Adds authentication of bearer tokens via URI Query Parameters as defined in
+              <see href="https://tools.ietf.org/html/rfc6750#section-2.3">RFC 6750</see>.
+              The name of the query string parameter sought will be the default,
+              "access_token", and the parameter will be redacted via the included
+              <see cref="T:Invio.Extensions.Authentication.JwtBearer.JwtBearerQueryStringMiddleware" />, unless otherwise configured
+              via the <paramref name="configureOptions" /> parameter.
+            </summary>
+            <param name="services">
+              The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" /> object being used to construct
+              the configuration for a given JWT bearer authentication handler.
+            </param>
+            <param name="configureOptions">
+              An action used to configure how the JWT bearer token should be handled
+              if it is being passed in via the query string.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+              Thrown when <paramref name="services" /> or
+              <paramref name="configureOptions" /> is null.
+            </exception>
+        </member>
+    </members>
+</doc>
