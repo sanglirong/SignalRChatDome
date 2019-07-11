@@ -4838,20 +4838,6 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
-      },
-      "Invio.Extensions.Authentication.JwtBearer/2.0.1": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "2.1.2",
-          "Microsoft.Extensions.DependencyInjection": "2.1.1"
-        },
-        "compile": {
-          "bin/placeholder/Invio.Extensions.Authentication.JwtBearer.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Invio.Extensions.Authentication.JwtBearer.dll": {}
-        }
       }
     }
   },
@@ -13315,16 +13301,10 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
-    },
-    "Invio.Extensions.Authentication.JwtBearer/2.0.1": {
-      "type": "project",
-      "path": "../../../../../07/Invio.Extensions.Authentication.JwtBearer-master/src/Invio.Extensions.Authentication.JwtBearer/Invio.Extensions.Authentication.JwtBearer.csproj",
-      "msbuildProject": "../../../../../07/Invio.Extensions.Authentication.JwtBearer-master/src/Invio.Extensions.Authentication.JwtBearer/Invio.Extensions.Authentication.JwtBearer.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
-      "Invio.Extensions.Authentication.JwtBearer >= 2.0.1",
       "Microsoft.AspNet.SignalR.JS >= 2.4.1",
       "Microsoft.AspNetCore.App >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
@@ -13340,11 +13320,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\Demo\\2019\\06\\Examples-master\\SignalR\\Ron.SignalRLesson2\\Ron.SignalRLesson2\\Ron.SignalRLesson2.csproj",
+      "projectUniqueName": "H:\\DomeCode\\SignalRChatDome\\SignalR\\Ron.SignalRLesson2\\Ron.SignalRLesson2\\Ron.SignalRLesson2.csproj",
       "projectName": "Ron.SignalRLesson2",
-      "projectPath": "H:\\Demo\\2019\\06\\Examples-master\\SignalR\\Ron.SignalRLesson2\\Ron.SignalRLesson2\\Ron.SignalRLesson2.csproj",
+      "projectPath": "H:\\DomeCode\\SignalRChatDome\\SignalR\\Ron.SignalRLesson2\\Ron.SignalRLesson2\\Ron.SignalRLesson2.csproj",
       "packagesPath": "C:\\Users\\slr\\.nuget\\packages\\",
-      "outputPath": "H:\\Demo\\2019\\06\\Examples-master\\SignalR\\Ron.SignalRLesson2\\Ron.SignalRLesson2\\obj\\",
+      "outputPath": "H:\\DomeCode\\SignalRChatDome\\SignalR\\Ron.SignalRLesson2\\Ron.SignalRLesson2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -13362,11 +13342,7 @@
       },
       "frameworks": {
         "netcoreapp2.2": {
-          "projectReferences": {
-            "H:\\Demo\\2019\\07\\Invio.Extensions.Authentication.JwtBearer-master\\src\\Invio.Extensions.Authentication.JwtBearer\\Invio.Extensions.Authentication.JwtBearer.csproj": {
-              "projectPath": "H:\\Demo\\2019\\07\\Invio.Extensions.Authentication.JwtBearer-master\\src\\Invio.Extensions.Authentication.JwtBearer\\Invio.Extensions.Authentication.JwtBearer.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

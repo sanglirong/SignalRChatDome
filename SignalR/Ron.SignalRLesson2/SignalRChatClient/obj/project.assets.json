@@ -2074,11 +2074,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\Demo\\2019\\06\\Examples-master\\SignalR\\Ron.SignalRLesson2\\SignalRChatClient\\SignalRChatClient.csproj",
+      "projectUniqueName": "H:\\DomeCode\\SignalRChatDome\\SignalR\\Ron.SignalRLesson2\\SignalRChatClient\\SignalRChatClient.csproj",
       "projectName": "SignalRChatClient",
-      "projectPath": "H:\\Demo\\2019\\06\\Examples-master\\SignalR\\Ron.SignalRLesson2\\SignalRChatClient\\SignalRChatClient.csproj",
+      "projectPath": "H:\\DomeCode\\SignalRChatDome\\SignalR\\Ron.SignalRLesson2\\SignalRChatClient\\SignalRChatClient.csproj",
       "packagesPath": "C:\\Users\\slr\\.nuget\\packages\\",
-      "outputPath": "H:\\Demo\\2019\\06\\Examples-master\\SignalR\\Ron.SignalRLesson2\\SignalRChatClient\\obj\\",
+      "outputPath": "H:\\DomeCode\\SignalRChatDome\\SignalR\\Ron.SignalRLesson2\\SignalRChatClient\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
