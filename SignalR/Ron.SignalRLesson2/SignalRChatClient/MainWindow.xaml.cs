@@ -16,14 +16,16 @@ namespace SignalRChatClient
         public MainWindow()
         {
             InitializeComponent();
+            connection = new HubConnectionBuilder().WithUrl("http://localhost:57286/wechatHub").Build();
 
-            connection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:57286/wechatHub", options =>
-                {
-                    options.Headers.Add("huarui", "jwtToken");
-                    options.AccessTokenProvider = () => Task.FromResult(token);
-                })
-                .Build();
+
+            //connection = new HubConnectionBuilder()
+            //    .WithUrl("http://localhost:57286/wechatHub", options =>
+            //    {
+            //        options.Headers.Add("huarui", "jwtToken");
+            //        options.AccessTokenProvider = () => Task.FromResult(token);
+            //    })
+            //    .Build();
 
             #region snippet_ClosedRestart
             connection.Closed += async (error) =>
@@ -36,7 +38,7 @@ namespace SignalRChatClient
 
         private async void connectButton_Click(object sender, RoutedEventArgs e)
         {
-            token = JwtBearerAuthentication.BuildJwtToken(userTextBox.Text);
+            // token = JwtBearerAuthentication.BuildJwtToken(userTextBox.Text);
 
             #region snippet_ConnectionOn
             connection.On<string, string>("ReceiveMessage", (user, message) =>

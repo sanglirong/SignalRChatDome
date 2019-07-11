@@ -19,9 +19,4 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\07\Invio.Extensions.Authentication.JwtBearer-master\src\Invio.Extensions.Authentication.JwtBearer\Invio.Extensions.Authentication.JwtBearer.csproj" />
-  </ItemGroup>
-
 </Project>

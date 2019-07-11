@@ -39,9 +39,9 @@ namespace Ron.SignalRLesson2.Middleware
             {
                 if (context.Request.Headers.Keys.Contains("Authorization"))
                 {
-                    var jwt = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
-                    var clm = JwtBearerAuthentication.GetPrincipal(jwt);
-                    if (clm != null) context.User = clm;
+                    //var jwt = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+                    //var clm = JwtBearerAuthentication.GetPrincipal(jwt);
+                    //if (clm != null) context.User = clm;
                 }
             }
             _next(context);

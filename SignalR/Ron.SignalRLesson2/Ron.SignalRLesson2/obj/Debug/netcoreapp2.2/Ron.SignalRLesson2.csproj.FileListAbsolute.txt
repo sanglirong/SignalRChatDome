@@ -33,3 +33,11 @@ H:\Demo\2019\06\Examples-master\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\ob
 H:\Demo\2019\06\Examples-master\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\bin\Debug\netcoreapp2.2\Invio.Extensions.Authentication.JwtBearer.dll
 H:\Demo\2019\06\Examples-master\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\bin\Debug\netcoreapp2.2\Invio.Extensions.Authentication.JwtBearer.pdb
 H:\Demo\2019\06\Examples-master\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\bin\Debug\netcoreapp2.2\Invio.Extensions.Authentication.JwtBearer.xml
+H:\DomeCode\SignalRChatDome\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\obj\Debug\netcoreapp2.2\Ron.SignalRLesson2.csprojAssemblyReference.cache
+H:\DomeCode\SignalRChatDome\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\obj\Debug\netcoreapp2.2\Ron.SignalRLesson2.csproj.CoreCompileInputs.cache
+H:\DomeCode\SignalRChatDome\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\obj\Debug\netcoreapp2.2\Ron.SignalRLesson2.RazorAssemblyInfo.cache
+H:\DomeCode\SignalRChatDome\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\obj\Debug\netcoreapp2.2\Ron.SignalRLesson2.RazorAssemblyInfo.cs
+H:\DomeCode\SignalRChatDome\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\obj\Debug\netcoreapp2.2\Ron.SignalRLesson2.AssemblyInfoInputs.cache
+H:\DomeCode\SignalRChatDome\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\obj\Debug\netcoreapp2.2\Ron.SignalRLesson2.AssemblyInfo.cs
+H:\DomeCode\SignalRChatDome\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\obj\Debug\netcoreapp2.2\Ron.SignalRLesson2.dll
+H:\DomeCode\SignalRChatDome\SignalR\Ron.SignalRLesson2\Ron.SignalRLesson2\obj\Debug\netcoreapp2.2\Ron.SignalRLesson2.pdb
