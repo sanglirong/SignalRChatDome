@@ -31,7 +31,7 @@ https://docs.microsoft.com/zh-cn/aspnet/core/signalr/authn-and-authz?view=aspnet
 
 3.3：混合认证。
 
-# 4：居群部署
+# 4：集群部署
 4.1：设置 ASP.NET Core SignalR 横向扩展 Redis 底板。
 
 https://docs.microsoft.com/zh-cn/aspnet/core/signalr/redis-backplane?view=aspnetcore-2.2
